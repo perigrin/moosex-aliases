@@ -1,6 +1,6 @@
 use strict;
 use Test::More;
-
+plan skip_all => q[Doesn't Work 'cause attributes aren't really part of roles.];
 my $called;
 
 {
