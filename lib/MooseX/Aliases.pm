@@ -5,6 +5,7 @@ our $VERSION = '0.01';
 use Moose();
 use Moose::Exporter;
 use Moose::Util::MetaRole;
+use MooseX::Aliases::Meta::Trait::Attribute;
 
 Moose::Exporter->setup_import_methods( with_caller => ['alias'], );
 
