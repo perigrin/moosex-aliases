@@ -19,7 +19,6 @@ sub alias {
 sub init_meta {
     shift;
     my %options = @_;
-    Moose->init_meta(%options);
     Moose::Util::MetaRole::apply_metaclass_roles(
         for_class               => $options{for_class},
         attribute_metaclass_roles =>
@@ -65,7 +64,7 @@ The MooseX::Aliases module will allow you to quickly alias methods in Moose.
 It provides an alias parameter for has() to generate aliased accessors as well
 as the standard ones.
 
-=head1 EXPORTED FUNCTIONS 
+=head1 EXPORTED FUNCTION 
 
 =head2 alias Str $original Str $alias
 

@@ -22,7 +22,7 @@ my $called;
     );
 
     sub run { $called++ }
-    alias walk => 'foo';
+    alias run => 'walk';
 }
 
 {
