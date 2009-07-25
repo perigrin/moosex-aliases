@@ -73,6 +73,8 @@ None known currently, please email the author if you find any.
 
 Chris Prather (chris@prather.org)
 
+Jesse Luehrs (doy at tozt dot net)
+
 =head1 LICENCE
 
 Copyright 2009 by Chris Prather.
