@@ -8,7 +8,7 @@ sub alias {
     my ( $caller, $orig, $alias ) = @_;
     my $meta   = Class::MOP::class_of($caller);
     my $method = $meta->find_method_by_name($orig);
-    confess "cannot find method $origin to alias" unless $method;
+    Moose::confess "cannot find method $orig to alias" unless $method;
     $meta->add_method( $alias => $method );
 }
 
