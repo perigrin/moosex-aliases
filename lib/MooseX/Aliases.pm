@@ -34,7 +34,7 @@ __END__
 
 =head1 NAME
 
-MooseX::Aliases - A class to ...
+MooseX::Aliases - A module for easy aliasing of methods and attributes in Moose.
 
 =head1 VERSION
 
@@ -46,16 +46,26 @@ This documentation refers to version 0.01.
     use Moose;
     use MooseX::Aliases;
     
-    sub foo { ... }
+    has this => ( 
+        isa   => 'Str',
+        is    => 'rw',
+        alias => 'that',
+    );
+    
+    sub foo { say $self->that }
     alias foo => 'bar';
     
-    MyApp->new->bar;
+    $o = MyApp->new();
+    $o->this('Hello World');
+    $o->bar; # prints 'Hello World'
 
 =head1 DESCRIPTION
 
-The MooseX::Aliases class implements ...
+The MooseX::Aliases module will allow you to quickly alias methods in Moose.
+It provides an alias parameter for has() to generate aliased accessors as well
+as the standard ones.
 
-=head1 SUBROUTINES / METHODS
+=head1 EXPORTED FUNCTIONS 
 
 =head2 alias Str $original Str $alias
 
