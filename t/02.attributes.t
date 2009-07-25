@@ -2,25 +2,29 @@ use strict;
 use Test::More;
 
 {
+
     package MyTest;
     use Moose;
     use MooseX::Aliases;
 
     has foo => (
-        is    => 'ro',
-        alias => 'bar',
+        is      => 'rw',
+        alias   => 'bar',
+        trigger => sub { ::pass('foo') },
     );
 
     has baz => (
-        is    => 'ro',
-        alias => [qw/quux quuux/],
+        is      => 'rw',
+        alias   => [qw/quux quuux/],
+        trigger => sub { ::pass('baz') },
     );
+
 }
 
-ok(my $t = MyTest->new);
-$t->foo;
-$t->bar;
-$t->baz;
-$t->quux;
-$t->quuux;
+ok( my $t = MyTest->new );
+$t->foo(1);
+$t->bar(1);
+$t->baz(1);
+$t->quux(1);
+$t->quuux(1);
 done_testing;
