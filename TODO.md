@@ -1,6 +1,6 @@
 ## TODO
 
-1. Attribute trait
+1. Attribute trait -- DONE 
 
     has foo => (
         is => 'ro',
