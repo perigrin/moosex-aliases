@@ -59,6 +59,21 @@ This documentation refers to version 0.01.
     $o->this('Hello World');
     $o->bar; # prints 'Hello World'
 
+or 
+
+    package MyApp::Role;
+    use Moose::Role;
+   
+    has this => ( 
+        isa   => 'Str',
+        is    => 'rw',
+        traits => [qw(Aliased)],
+        alias => 'that',
+    );
+    
+    sub foo { say $self->that }
+    alias foo => 'bar';
+
 =head1 DESCRIPTION
 
 The MooseX::Aliases module will allow you to quickly alias methods in Moose.
@@ -77,7 +92,10 @@ Moose
 
 =head1 BUGS AND LIMITATIONS
 
-None known currently, please email the author if you find any.
+Currently if you're using MooseX::Aliased in a Role you will need to
+explicitly associate the Metaclass trait with your attribute. This is because
+Moose won't automatically apply metaclass traits to attributes in Roles. The
+example in the Synopsis should work.
 
 =head1 AUTHOR
 
