@@ -14,9 +14,22 @@ has alias => (
 
 after install_accessors => sub {
     my $self = shift;
-    for my $alias ( $self->alias ) {
-        MooseX::Aliases::alias( $self->associated_class->name,
-            $self->get_read_method => $alias, );
+    my $class_meta = $self->associated_class;
+    my $orig_name   = $self->get_read_method;
+    my $orig_method = $self->get_read_method_ref;
+    my $method_meta = Moose::Meta::Class->create_anon_class(
+        superclasses => [blessed($orig_method)],
+        roles        => ['MooseX::Aliases::Meta::Trait::Method'],
+        cache        => 1,
+    )->name;
+    for my $alias ($self->alias) {
+        $class_meta->add_method(
+            $alias => $method_meta->wrap(
+                $orig_method,
+                name         => $alias,
+                aliased_from => $orig_name,
+            )
+        );
     }
 };
 no Moose::Role;

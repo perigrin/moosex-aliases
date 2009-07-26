@@ -6,6 +6,7 @@ use Moose();
 use Moose::Exporter;
 use Moose::Util::MetaRole;
 use MooseX::Aliases::Meta::Trait::Attribute;
+use Scalar::Util qw(blessed);
 
 Moose::Exporter->setup_import_methods( with_caller => ['alias'], );
 
@@ -14,7 +15,24 @@ sub alias {
     my $meta   = Class::MOP::class_of($caller);
     my $method = $meta->find_method_by_name($orig);
     Moose::confess "cannot find method $orig to alias" unless $method;
-    $meta->add_method( $alias => $method );
+    my $method_metaclass;
+    if (Class::MOP::class_of($method)->can('does_role')
+     && Class::MOP::class_of($method)->does_role('MooseX::Aliases::Meta::Trait::Method')) {
+        $method_metaclass = blessed($method);
+    }
+    else {
+        $method_metaclass = Moose::Meta::Class->create_anon_class(
+            superclasses => [blessed($method)],
+            roles        => ['MooseX::Aliases::Meta::Trait::Method'],
+            cache        => 1,
+        )->name;
+    }
+    $meta->add_method(
+        $alias => $method_metaclass->wrap(
+            $method,
+            aliased_from => $alias
+        )
+    );
 }
 
 sub init_meta {
