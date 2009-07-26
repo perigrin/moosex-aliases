@@ -10,25 +10,30 @@ use Scalar::Util qw(blessed);
 
 Moose::Exporter->setup_import_methods( with_caller => ['alias'], );
 
-sub alias {
-    my ( $caller, $orig, $alias ) = @_;
-    my $meta   = Class::MOP::class_of($caller);
-    my $method = $meta->find_method_by_name($orig);
-    Moose::confess "cannot find method $orig to alias" unless $method;
-    my $method_metaclass;
-    if (Class::MOP::class_of($method)->can('does_role')
-     && Class::MOP::class_of($method)->does_role('MooseX::Aliases::Meta::Trait::Method')) {
-        $method_metaclass = blessed($method);
+sub _get_method_metaclass {
+    my ($method) = @_;
+
+    my $meta = Class::MOP::class_of($method);
+    if ($meta->can('does_role')
+     && $meta->does_role('MooseX::Aliases::Meta::Trait::Method')) {
+        return blessed($method);
     }
     else {
-        $method_metaclass = Moose::Meta::Class->create_anon_class(
+        return Moose::Meta::Class->create_anon_class(
             superclasses => [blessed($method)],
             roles        => ['MooseX::Aliases::Meta::Trait::Method'],
             cache        => 1,
         )->name;
     }
+}
+
+sub alias {
+    my ( $caller, $orig, $alias ) = @_;
+    my $meta   = Class::MOP::class_of($caller);
+    my $method = $meta->find_method_by_name($orig);
+    Moose::confess "cannot find method $orig to alias" unless $method;
     $meta->add_method(
-        $alias => $method_metaclass->wrap(
+        $alias => _get_method_metaclass($method)->wrap(
             $method,
             aliased_from => $alias
         )
