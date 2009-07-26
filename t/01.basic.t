@@ -7,7 +7,7 @@ my $called = 0;
     package MyTest;
     use Moose;
     use MooseX::Aliases;
-    
+
     sub foo { $called++ }
     alias foo => 'bar';
 }

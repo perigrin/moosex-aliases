@@ -21,10 +21,10 @@ my $called;
         alias   => [qw/quux quuux/],
         trigger => sub { $called++ },
     );
-    
+
     sub run { $called++ }
     alias run => 'walk';
-    
+
 }
 
 ok( my $t = MyTest->new );
