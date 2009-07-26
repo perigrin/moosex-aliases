@@ -35,7 +35,7 @@ sub alias {
     $meta->add_method(
         $alias => _get_method_metaclass($method)->wrap(
             $method,
-            aliased_from => $alias
+            aliased_from => $orig
         )
     );
 }
