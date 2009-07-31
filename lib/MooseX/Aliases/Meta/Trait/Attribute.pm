@@ -1,6 +1,7 @@
 package MooseX::Aliases::Meta::Trait::Attribute;
 use Moose::Role;
 use Moose::Util::TypeConstraints;
+Moose::Util::meta_attribute_alias 'Aliased';
 
 subtype 'MooseX::Aliases::ArrayRef', as 'ArrayRef[Str]';
 coerce 'MooseX::Aliases::ArrayRef', from 'Str', via { [$_] };
@@ -27,10 +28,8 @@ after install_accessors => sub {
         );
     }
 };
-no Moose::Role;
 
-package Moose::Meta::Attribute::Custom::Trait::Aliased;
-sub register_implementation { 'MooseX::Aliases::Meta::Trait::Attribute' }
+no Moose::Role;
 
 1;
 __END__
