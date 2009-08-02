@@ -1,14 +1,13 @@
 package MooseX::Aliases;
-use strict;
 our $VERSION = '0.01';
 
-use Moose();
+use Moose ();
 use Moose::Exporter;
 use Moose::Util::MetaRole;
 use MooseX::Aliases::Meta::Trait::Attribute;
 use Scalar::Util qw(blessed);
 
-Moose::Exporter->setup_import_methods( with_caller => ['alias'], );
+Moose::Exporter->setup_import_methods( with_caller => ['alias'] );
 
 sub _get_method_metaclass {
     my ($method) = @_;
@@ -44,7 +43,7 @@ sub init_meta {
     shift;
     my %options = @_;
     Moose::Util::MetaRole::apply_metaclass_roles(
-        for_class               => $options{for_class},
+        for_class                 => $options{for_class},
         attribute_metaclass_roles =>
             ['MooseX::Aliases::Meta::Trait::Attribute'],
     );
