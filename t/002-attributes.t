@@ -1,10 +1,11 @@
+#!/usr/bin/env perl
 use strict;
+use warnings;
 use Test::More;
 
 my $called;
 
 {
-
     package MyTest;
     use Moose;
     use MooseX::Aliases;
@@ -20,10 +21,9 @@ my $called;
         alias   => [qw/quux quuux/],
         trigger => sub { $called++ },
     );
-
 }
 
-ok( my $t = MyTest->new );
+my $t = MyTest->new;
 $t->foo(1);
 $t->bar(1);
 $t->baz(1);

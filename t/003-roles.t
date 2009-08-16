@@ -1,33 +1,39 @@
+#!/usr/bin/env perl
 use strict;
+use warnings;
 use Test::More;
+plan skip_all => q[Doesn't Work 'cause attributes aren't really part of roles.];
+
 my $called;
 
 {
-
-    package MyTest;
-    use Moose;
+    package MyTestRole;
+    use Moose::Role;
     use MooseX::Aliases;
 
     has foo => (
         is      => 'rw',
-        traits   => ['Aliased'],
         alias   => 'bar',
         trigger => sub { $called++ },
     );
 
     has baz => (
         is      => 'rw',
-        traits  => ['Aliased'],
         alias   => [qw/quux quuux/],
         trigger => sub { $called++ },
     );
 
     sub run { $called++ }
     alias run => 'walk';
-
 }
 
-ok( my $t = MyTest->new );
+{
+    package MyTest;
+    use Moose;
+    with 'MyTestRole';
+}
+
+my $t = MyTest->new;
 $t->foo(1);
 $t->bar(1);
 $t->baz(1);
@@ -35,5 +41,5 @@ $t->quux(1);
 $t->quuux(1);
 $t->run;
 $t->walk;
-is( $called, 7, 'all aliased methods were called' );
+is($called, 7, 'all aliased methods were called');
 done_testing;

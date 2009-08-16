@@ -1,4 +1,6 @@
+#!/usr/bin/env perl
 use strict;
+use warnings;
 use Test::More;
 
 my $called = 0;
@@ -12,7 +14,7 @@ my $called = 0;
     alias foo => 'bar';
 }
 
-ok(my $t = MyTest->new);
+my $t = MyTest->new;
 $t->foo;
 $t->bar;
 is($called, 2, 'alias calls the original method');

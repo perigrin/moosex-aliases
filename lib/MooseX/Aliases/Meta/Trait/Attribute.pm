@@ -32,4 +32,3 @@ after install_accessors => sub {
 no Moose::Role;
 
 1;
-__END__
