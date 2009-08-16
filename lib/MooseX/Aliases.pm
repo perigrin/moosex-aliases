@@ -13,13 +13,13 @@ MooseX::Aliases - easy aliasing of methods and attributes in Moose
     package MyApp;
     use Moose;
     use MooseX::Aliases;
-    
-    has this => ( 
+
+    has this => (
         isa   => 'Str',
         is    => 'rw',
         alias => 'that',
     );
-    
+
     sub foo { say $self->that }
     alias foo => 'bar';
     
@@ -31,14 +31,14 @@ or
 
     package MyApp::Role;
     use Moose::Role;
-   
-    has this => ( 
+
+    has this => (
         isa   => 'Str',
         is    => 'rw',
         traits => [qw(Aliased)],
         alias => 'that',
     );
-    
+
     sub foo { say $self->that }
     alias foo => 'bar';
 
