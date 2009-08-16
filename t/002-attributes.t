@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More;
+use Test::More tests => 1;
 
 my $called;
 
@@ -30,4 +30,3 @@ $t->baz(1);
 $t->quux(1);
 $t->quuux(1);
 is($called, 5, 'all aliased methods were called');
-done_testing;

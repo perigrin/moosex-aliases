@@ -1,8 +1,9 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More;
-plan skip_all => q[Doesn't Work 'cause attributes aren't really part of roles.];
+#use Test::More tests => 1;
+use Test::More
+    skip_all => q[doesn't work because attributes aren't really part of roles];
 
 my $called;
 
@@ -42,4 +43,3 @@ $t->quuux(1);
 $t->run;
 $t->walk;
 is($called, 7, 'all aliased methods were called');
-done_testing;

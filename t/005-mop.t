@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More;
+use Test::More tests => 4;
 
 {
     package MyTest;
@@ -25,4 +25,3 @@ my $attr_method = MyTest->meta->get_method('quux');
 ok($attr_method->meta->does_role('MooseX::Aliases::Meta::Trait::Method'),
    'does the method trait');
 is($attr_method->aliased_from, 'baz', 'quux is aliased from baz');
-done_testing;
