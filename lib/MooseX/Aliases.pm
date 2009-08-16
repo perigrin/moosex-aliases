@@ -1,5 +1,4 @@
 package MooseX::Aliases;
-our $VERSION = '0.01';
 
 use Moose ();
 use Moose::Exporter;
@@ -57,10 +56,6 @@ __END__
 =head1 NAME
 
 MooseX::Aliases - A module for easy aliasing of methods and attributes in Moose.
-
-=head1 VERSION
-
-This documentation refers to version 0.01.
 
 =head1 SYNOPSIS
 
