@@ -103,6 +103,17 @@ sub init_meta {
     return Class::MOP::class_of($options{for_class});
 }
 
+=head1 TODO
+
+=over 4
+
+=item * Subsume MooseX::MultiInitArgs, make it so that init_arg can take an ArrayRef
+    has foo => (
+        init_arg => [qw(foo bar baz)],
+    )
+
+=back
+
 =head1 BUGS/CAVEATS
 
 Currently, to use MooseX::Aliased in a role, you will need to explicitly
