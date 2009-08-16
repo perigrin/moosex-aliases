@@ -3,8 +3,7 @@ use Moose::Role;
 
 =head1 NAME
 
-MooseX::Aliases::Meta::Trait::Method - method metaclass trait for
-L<MooseX::Aliases>
+MooseX::Aliases::Meta::Trait::Method - method metaclass trait for L<MooseX::Aliases>
 
 =head1 DESCRIPTION
 

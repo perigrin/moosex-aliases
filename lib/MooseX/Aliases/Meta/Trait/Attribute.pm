@@ -5,8 +5,7 @@ Moose::Util::meta_attribute_alias 'Aliased';
 
 =head1 NAME
 
-MooseX::Aliases::Meta::Trait::Attribute - attribute metaclass trait for
-L<MooseX::Aliases>
+MooseX::Aliases::Meta::Trait::Attribute - attribute metaclass trait for L<MooseX::Aliases>
 
 =head1 SYNOPSIS
 
