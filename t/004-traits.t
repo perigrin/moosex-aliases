@@ -1,9 +1,9 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 1;
+use Test::More tests => 3;
 
-my $called;
+my ($foo_called, $baz_called, $run_called);
 
 {
     package MyTest;
@@ -14,17 +14,17 @@ my $called;
         is      => 'rw',
         traits   => ['Aliased'],
         alias   => 'bar',
-        trigger => sub { $called++ },
+        trigger => sub { $foo_called++ },
     );
 
     has baz => (
         is      => 'rw',
         traits  => ['Aliased'],
         alias   => [qw/quux quuux/],
-        trigger => sub { $called++ },
+        trigger => sub { $baz_called++ },
     );
 
-    sub run { $called++ }
+    sub run { $run_called++ }
     alias run => 'walk';
 }
 
@@ -36,4 +36,6 @@ $t->quux(1);
 $t->quuux(1);
 $t->run;
 $t->walk;
-is($called, 7, 'all aliased methods were called');
+is($foo_called, 2, 'all aliased methods were called from foo');
+is($baz_called, 3, 'all aliased methods were called from baz');
+is($run_called, 2, 'all aliased methods were called from run');
