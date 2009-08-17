@@ -108,6 +108,7 @@ sub init_meta {
 =over 4
 
 =item * Subsume MooseX::MultiInitArgs, make it so that init_arg can take an ArrayRef
+
     has foo => (
         init_arg => [qw(foo bar baz)],
     )
