@@ -37,6 +37,7 @@ has alias => (
     isa        => 'MooseX::Aliases::ArrayRef',
     auto_deref => 1,
     coerce     => 1,
+    predicate  => 'has_alias',
 );
 
 after install_accessors => sub {
@@ -53,6 +54,24 @@ after install_accessors => sub {
             )
         );
     }
+};
+
+around initialize_instance_slot => sub {
+    my $orig = shift;
+    my $self = shift;
+    my ($meta_instance, $instance, $params) = @_;
+
+    if ($self->has_alias && (!$self->has_init_arg || defined $self->init_arg)) {
+        if(my @aliases = grep { exists $params->{$_} } @{ $self->alias }) {
+            if ($self->has_init_arg and exists $params->{ $self->init_arg }) {
+                push(@aliases, $self->init_arg);
+            }
+
+            confess 'Conflicting init_args: (' . join(', ', @aliases) . ')' if @aliases > 1;
+            $self->_set_initial_slot_value($meta_instance, $instance, $params->{$aliases[0]});
+        }
+    }
+    $self->$orig(@_);
 };
 
 no Moose::Role;
