@@ -61,16 +61,23 @@ around initialize_instance_slot => sub {
     my $self = shift;
     my ($meta_instance, $instance, $params) = @_;
 
-    if ($self->has_alias && (!$self->has_init_arg || defined $self->init_arg)) {
-        if(my @aliases = grep { exists $params->{$_} } @{ $self->alias }) {
-            if ($self->has_init_arg and exists $params->{ $self->init_arg }) {
-                push(@aliases, $self->init_arg);
-            }
+    return $self->$orig(@_)
+        # don't run if we haven't set any aliases
+        unless $self->has_alias
+            # don't run if init_arg is explicitly undef
+            && (!$self->has_init_arg || defined $self->init_arg);
 
-            confess 'Conflicting init_args: (' . join(', ', @aliases) . ')' if @aliases > 1;
-            $self->_set_initial_slot_value($meta_instance, $instance, $params->{$aliases[0]});
+    if (my @aliases = grep { exists $params->{$_} } @{ $self->alias }) {
+        if ($self->has_init_arg and exists $params->{ $self->init_arg }) {
+            push @aliases, $self->init_arg;
         }
+
+        $self->associated_metaclass->throw_error(
+            'Conflicting init_args: (' . join(', ', @aliases) . ')'
+        ) if @aliases > 1;
+        $self->_set_initial_slot_value($meta_instance, $instance, $params->{$aliases[0]});
     }
+
     $self->$orig(@_);
 };
 
