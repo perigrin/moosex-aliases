@@ -41,10 +41,7 @@ is($test1->baz, 4, 'Attribute set with aliased writer');
 is($test1->quux, 4, 'Attribute set with aliased writer');
 
 my $test2 = MyTest->new(bar => -1, baz => -3);
-TODO: {
-    local $TODO = "aliasing doesn't run coercions properly";
-    is($test2->foo, 1, 'Attribute set wtih aliased init_arg');
-}
+is($test2->foo, 1, 'Attribute set wtih aliased init_arg');
 is($test2->baz, undef, 'Attribute set with default init_arg (undef)');
 
 $test2->baz(-3);

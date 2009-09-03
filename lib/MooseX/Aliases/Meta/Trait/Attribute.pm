@@ -75,7 +75,8 @@ around initialize_instance_slot => sub {
         $self->associated_metaclass->throw_error(
             'Conflicting init_args: (' . join(', ', @aliases) . ')'
         ) if @aliases > 1;
-        $self->_set_initial_slot_value($meta_instance, $instance, $params->{$aliases[0]});
+
+        $params->{ $self->init_arg } = delete $params->{ $aliases[0] };
     }
 
     $self->$orig(@_);
